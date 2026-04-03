@@ -12,12 +12,39 @@
 #include "params.h"
 #include "util.h"
 
+
+#define DONE_ADDR    ((volatile uint32_t *)0x9EEC0020ULL)
+#define D_ADDR    ((volatile uint32_t *)0x8EEC0020ULL)
+ 
+
+static inline void fence_rw_rw(void) {
+  __asm__ volatile ("fence" ::: "memory");
+}
+
+
 int main(void) {
-    char str[] = "Hello World!\r\n";
-    uint32_t rtc_freq = *reg32(&__base_regs, CHESHIRE_RTC_FREQ_REG_OFFSET);
-    uint64_t reset_freq = clint_get_core_freq(rtc_freq, 2500);
-    uart_init(&__base_uart, reset_freq, __BOOT_BAUDRATE);
-    uart_write_str(&__base_uart, str, sizeof(str));
-    uart_write_flush(&__base_uart);
+
+*D_ADDR = 0xAAAA;
+    volatile uint32_t *p   = (volatile uint32_t *)(uintptr_t)0x9EED0000ULL;
+     volatile uint32_t *end = (volatile uint32_t *)(uintptr_t)0x9FFFF000ULL;
+
+
+    uint32_t value = 0xAAAA;
+
+    while (p < end) {
+        *p++ = value;
+        value += 0x1111;
+
+        if (value > 0xFFFF) {
+            value = 0xAAAA;
+        }
+    }
+
+
+*(volatile uint32_t *)0x9EEC0020 = 0xf005ba11;
+     fence_rw_rw();
+
+while (1) { }
+
     return 0;
 }

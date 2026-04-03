@@ -14,9 +14,8 @@
 // TODO: Expose more IO: unused SPI CS, Serial Link, etc.
 
 module cheshire_top_xilinx import cheshire_pkg::*; (
-  input  logic  sys_clk_p,
-  input  logic  sys_clk_n,
-
+  input  logic  soc_clk, 
+ 
 `ifdef USE_RESET
   input  logic  sys_reset,
 `endif
@@ -92,7 +91,64 @@ module cheshire_top_xilinx import cheshire_pkg::*; (
   input  logic  uart_rx_i,
 
   inout  wire [UsbNumPorts-1:0] usb_dm_io,
-  inout  wire [UsbNumPorts-1:0] usb_dp_io
+  inout  wire [UsbNumPorts-1:0] usb_dp_io, 
+  
+output logic [5:0]   cheshire_req_i_aw_id,
+output logic [47:0]  cheshire_req_i_aw_addr,
+output logic [7:0]   cheshire_req_i_aw_len,
+output logic [2:0]   cheshire_req_i_aw_size,
+output logic [1:0]   cheshire_req_i_aw_burst,
+output logic         cheshire_req_i_aw_lock,
+output logic [3:0]   cheshire_req_i_aw_cache,
+output logic [2:0]   cheshire_req_i_aw_prot,
+output logic         cheshire_req_i_aw_valid,
+//output logic [AXI_USER_W-1:0] cheshire_req_i_aw_user,
+output logic [3:0]   cheshire_req_i_aw_qos,
+
+// W
+output logic [63:0]  cheshire_req_i_w_data,
+output logic [7:0]   cheshire_req_i_w_strb,
+output logic         cheshire_req_i_w_last,
+output logic         cheshire_req_i_w_valid,
+//output logic [AXI_USER_W-1:0] cheshire_req_i_w_user,
+
+// BREADY
+output logic         cheshire_req_i_b_ready,
+
+// AR
+output logic [5:0]   cheshire_req_i_ar_id,
+output logic [47:0]  cheshire_req_i_ar_addr,
+output logic [7:0]   cheshire_req_i_ar_len,
+output logic [2:0]   cheshire_req_i_ar_size,
+output logic [1:0]   cheshire_req_i_ar_burst,
+output logic         cheshire_req_i_ar_lock,
+output logic [3:0]   cheshire_req_i_ar_cache,
+output logic [2:0]   cheshire_req_i_ar_prot,
+output logic         cheshire_req_i_ar_valid,
+//output logic [AXI_USER_W-1:0] cheshire_req_i_ar_user,
+output logic [3:0]   cheshire_req_i_ar_qos,
+
+// RREADY
+output logic         cheshire_req_i_r_ready,
+
+// READY/VALID back
+input logic          cheshire_rsp_o_aw_ready,
+input logic          cheshire_rsp_o_ar_ready,
+input logic          cheshire_rsp_o_w_ready,
+input logic          cheshire_rsp_o_b_valid,
+input logic          cheshire_rsp_o_r_valid,
+
+// B
+input logic [5:0]    cheshire_rsp_o_b_id,
+input logic [1:0]    cheshire_rsp_o_b_resp,
+//input logic [AXI_USER_W-1:0] cheshire_rsp_o_b_user,
+
+// R
+input logic [5:0]    cheshire_rsp_o_r_id,
+input logic [63:0]   cheshire_rsp_o_r_data,
+input logic [1:0]    cheshire_rsp_o_r_resp,
+input logic          cheshire_rsp_o_r_last
+//input logic [AXI_USER_W-1:0] cheshire_rsp_o_r_user
 );
 
   ///////////////////////
@@ -125,10 +181,9 @@ module cheshire_top_xilinx import cheshire_pkg::*; (
   //  Clock Generation  //
   ////////////////////////
 
-  wire sys_clk;
   wire soc_clk;
   wire usb_clk;
-
+/*
   IBUFDS #(
     .IBUF_LOW_PWR ("FALSE")
   ) i_bufds_sys_clk (
@@ -136,12 +191,12 @@ module cheshire_top_xilinx import cheshire_pkg::*; (
     .IB ( sys_clk_n ),
     .O  ( sys_clk   )
   );
-
+*/
   clkwiz i_clkwiz (
-    .clk_in1  ( sys_clk ),
+    .clk_in1  ( soc_clk ),
     .reset    ( '0 ),
     .locked   ( ),
-    .clk_50   ( soc_clk ),
+    .clk_50   (  ),
     .clk_48   ( usb_clk ),
     .clk_20   ( ),
     .clk_10   ( )
@@ -470,6 +525,74 @@ module cheshire_top_xilinx import cheshire_pkg::*; (
 
   axi_llc_req_t axi_llc_mst_req;
   axi_llc_rsp_t axi_llc_mst_rsp;
+  
+    // Response structs, force to 0 (LHS remapped to axi_llc_mst_rsp.*)
+assign axi_llc_mst_rsp.aw_ready = cheshire_rsp_o_aw_ready;
+assign axi_llc_mst_rsp.ar_ready = cheshire_rsp_o_ar_ready;
+assign axi_llc_mst_rsp.w_ready  = cheshire_rsp_o_w_ready;
+assign axi_llc_mst_rsp.b_valid  = cheshire_rsp_o_b_valid;
+assign axi_llc_mst_rsp.r_valid  = cheshire_rsp_o_r_valid;
+
+// B channel
+assign axi_llc_mst_rsp.b.id     = cheshire_rsp_o_b_id;
+assign axi_llc_mst_rsp.b.resp   = cheshire_rsp_o_b_resp;
+//assign axi_llc_mst_rsp.b.user   = cheshire_rsp_o_b_user;
+
+// R channel
+assign axi_llc_mst_rsp.r.id     = cheshire_rsp_o_r_id;
+assign axi_llc_mst_rsp.r.data   = cheshire_rsp_o_r_data;
+assign axi_llc_mst_rsp.r.resp   = cheshire_rsp_o_r_resp;
+assign axi_llc_mst_rsp.r.last   = cheshire_rsp_o_r_last;
+//assign axi_llc_mst_rsp.r.user   = cheshire_rsp_o_r_user;
+
+
+// --------------------
+// Request bundle
+// --------------------
+assign axi_llc_mst_req.aw_valid = cheshire_req_i_aw_valid;
+assign axi_llc_mst_req.w_valid  = cheshire_req_i_w_valid;
+assign axi_llc_mst_req.b_ready  = cheshire_req_i_b_ready;
+assign axi_llc_mst_req.ar_valid = cheshire_req_i_ar_valid;
+assign axi_llc_mst_req.r_ready  = cheshire_req_i_r_ready;
+
+// AW channel
+assign axi_llc_mst_req.aw.id    = cheshire_req_i_aw_id;
+assign axi_llc_mst_req.aw.addr  = cheshire_req_i_aw_addr;
+assign axi_llc_mst_req.aw.len   = cheshire_req_i_aw_len;
+assign axi_llc_mst_req.aw.size  = cheshire_req_i_aw_size;
+assign axi_llc_mst_req.aw.burst = cheshire_req_i_aw_burst;
+assign axi_llc_mst_req.aw.lock  = cheshire_req_i_aw_lock;
+assign axi_llc_mst_req.aw.cache = cheshire_req_i_aw_cache;
+assign axi_llc_mst_req.aw.prot  = cheshire_req_i_aw_prot;
+assign axi_llc_mst_req.aw.qos   = cheshire_req_i_aw_qos;
+//assign axi_llc_mst_req.aw.user  = cheshire_req_i_aw_user;
+
+// If these fields exist in axi_llc_mst_req, and you exposed them as ports, uncomment:
+// assign axi_llc_mst_req.aw_region = cheshire_req_i_aw_region;
+// assign axi_llc_mst_req.aw_atop   = cheshire_req_i_aw_atop;
+
+// W channel
+assign axi_llc_mst_req.w.data = cheshire_req_i_w_data;
+assign axi_llc_mst_req.w.strb = cheshire_req_i_w_strb;
+assign axi_llc_mst_req.w.last = cheshire_req_i_w_last;
+//assign axi_llc_mst_req.w.user = cheshire_req_i_w_user;
+
+//assign axi_llc_mst_req.w.id   =
+//assign axi_llc_mst_req.aw.region
+//assign axi_llc_mst_req.ar.region
+
+// AR channel
+assign axi_llc_mst_req.ar.id    = cheshire_req_i_ar_id;
+assign axi_llc_mst_req.ar.addr  = cheshire_req_i_ar_addr;
+assign axi_llc_mst_req.ar.len   = cheshire_req_i_ar_len;
+assign axi_llc_mst_req.ar.size  = cheshire_req_i_ar_size;
+assign axi_llc_mst_req.ar.burst = cheshire_req_i_ar_burst;
+assign axi_llc_mst_req.ar.lock  = cheshire_req_i_ar_lock;
+assign axi_llc_mst_req.ar.cache = cheshire_req_i_ar_cache;
+assign axi_llc_mst_req.ar.prot  = cheshire_req_i_ar_prot;
+assign axi_llc_mst_req.ar.qos   = cheshire_req_i_ar_qos;
+//assign axi_llc_mst_req.ar.user  = cheshire_req_i_ar_user;
+
 
 `ifdef USE_DDR
   dram_wrapper_xilinx #(

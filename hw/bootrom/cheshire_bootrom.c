@@ -20,6 +20,20 @@
 
 extern int boot_next_stage(void *);
 
+static inline uint64_t read_mcycle(void) {
+    uint64_t value;
+    __asm__ volatile ("csrr %0, mcycle" : "=r"(value));
+    return value;
+}
+
+static void sleep_seconds_from_core_freq(uint64_t core_freq, uint32_t seconds) {
+    uint64_t start = read_mcycle();
+    uint64_t delta = core_freq * seconds;
+    while ((read_mcycle() - start) < delta) {
+        // busy wait
+    }
+}
+/*
 int boot_passive(uint64_t core_freq) {
     // Initialize UART with debug settings
     uart_debug_init(&__base_uart, core_freq);
@@ -31,6 +45,28 @@ int boot_passive(uint64_t core_freq) {
     // No UART (or JTAG) requests came in, but scratch[2][2] was set --> run code at scratch[1:0]
     scratch[2] = 0;
     return boot_next_stage((void *)(uintptr_t)(((uint64_t)scratch[1] << 32) | scratch[0]));
+}
+*/
+
+int boot_passive(uint64_t core_freq) {
+    uart_debug_init(&__base_uart, core_freq);
+    
+   volatile uint32_t *flag = (volatile uint32_t *)0x9EEC0010;
+   volatile uint32_t * const reg = (volatile uint32_t *)0x9EEC0000;
+
+    while (1) {
+        if (*reg == 0xCAFEBABE)
+            break;
+        asm volatile("fence" ::: "memory");
+    }
+    
+    *reg = 0;
+    *flag = 0xDEADBEEF; 
+
+    asm volatile("fence" ::: "memory");
+
+    // Skip polling entirely, go straight to hardcoded entry point
+    return boot_next_stage((void *)(uintptr_t)0x80000000ULL);
 }
 
 int boot_spi_sdcard(uint64_t core_freq, uint64_t rtc_freq) {
@@ -69,10 +105,13 @@ int boot_i2c_24fc1025(uint64_t core_freq) {
 
 int main() {
     // Read boot mode and reference frequency
-    uint32_t bootmode = *reg32(&__base_regs, CHESHIRE_BOOT_MODE_REG_OFFSET);
+    uint32_t bootmode = 0;
     uint32_t rtc_freq = *reg32(&__base_regs, CHESHIRE_RTC_FREQ_REG_OFFSET);
     // Compute the boot core frequency using the reference clock
     uint64_t core_freq = clint_get_core_freq(rtc_freq, 2500);
+    sleep_seconds_from_core_freq(core_freq, 20);
+
+
     // In case of reentry, store return in scratch0 as is convention
     switch (bootmode) {
     case 0:
