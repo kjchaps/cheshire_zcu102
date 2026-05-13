@@ -1,0 +1,44 @@
+
+;; Function main (main, funcdef_no=0, decl_uid=108382, cgraph_uid=1, symbol_order=0) (executed once)
+
+int main ()
+{
+  <bb 2> [local count: 10631108]:
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY setup_fs_vs
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("li t0, %0" :  : "i" 24576);
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("csrs mstatus, t0");
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("li t0, %0" :  : "i" 1536);
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("csrs mstatus, t0");
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY finalTestComplete
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG BEGIN_STMT
+  MEM[(volatile uint32_t *)2666266656B] ={v} 3737844653;
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+
+  <bb 3> [local count: 1073741824]:
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+
+  <bb 4> [local count: 1073741824]:
+  goto <bb 3>; [100.00%]
+
+}
+
+

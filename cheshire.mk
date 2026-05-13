@@ -203,7 +203,9 @@ chs-bootrom-all: $(CHS_BOOTROM_ALL)
 chs-sim-all:     $(CHS_SIM_ALL)
 chs-dramsys-all: $(CHS_DRAMSYS_ALL)
 chs-xilinx-all:  $(CHS_XILINX_ALL)
+chs-zcu102-sw-all:
+	$(MAKE) -C .bender/git/checkouts/ara-2c7b103275a16c87/cheshire/sw chs-sw-all
 
-CHS_PHONY += chs-all chs-sw-all chs-hw-all chs-bootrom-all chs-sim-all chs-dramsys-all chs-xilinx-all
+CHS_PHONY += chs-all chs-sw-all chs-hw-all chs-bootrom-all chs-sim-all chs-dramsys-all chs-xilinx-all chs-zcu102-sw-all
 
 .PHONY: $(CHS_PHONY)

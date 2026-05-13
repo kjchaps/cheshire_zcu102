@@ -1,0 +1,462 @@
+
+;; Function main (main, funcdef_no=0, decl_uid=108390, cgraph_uid=1, symbol_order=0) (executed once)
+
+int main ()
+{
+  int64_t instret_count;
+  int64_t cycle_count;
+  uintptr_t ptr;
+  uintptr_t addr;
+  uintptr_t ptr;
+  uintptr_t addr;
+  uintptr_t ptr;
+  uintptr_t addr;
+  int64_t cycle_count;
+  int64_t instret_count;
+  int i;
+  int j;
+  TYPE[0:D.108688][0:D.108685] * buffer.10;
+  void * _9;
+  long unsigned int _11;
+  volatile uintptr_t * _12;
+  volatile uintptr_t * _14;
+  unsigned int _16;
+  unsigned int _17;
+  unsigned int _18;
+  long unsigned int _19;
+  long unsigned int _20;
+  volatile uintptr_t * _21;
+  volatile uintptr_t * _23;
+  unsigned int _26;
+  unsigned int _27;
+  long unsigned int _28;
+  long unsigned int _29;
+  volatile uintptr_t * _30;
+  volatile uintptr_t * _32;
+  unsigned int _35;
+  unsigned int _36;
+  long unsigned int _37;
+  long unsigned int _38;
+  unsigned int prephitmp_61;
+  float _75;
+  unsigned int _76;
+  long unsigned int _78;
+  unsigned int prephitmp_79;
+  long unsigned int _80;
+  volatile TYPE[0:D.108681] * _81;
+  float _83;
+  unsigned int _88;
+  unsigned int _89;
+  long unsigned int _91;
+  long unsigned int _93;
+  unsigned int _94;
+  long unsigned int _95;
+  unsigned int _96;
+  unsigned int _97;
+  long unsigned int _98;
+  unsigned int _99;
+  long int _107;
+  unsigned int ivtmp_131;
+  unsigned int ivtmp_133;
+  unsigned int _164;
+  unsigned int _165;
+  long int _173;
+
+  <bb 2> [local count: 10631108]:
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY setup_fs_vs
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("li t0, %0" :  : "i" 24576);
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("csrs mstatus, t0");
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("li t0, %0" :  : "i" 1536);
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("csrs mstatus, t0");
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG BEGIN_STMT
+  # DEBUG k => 1
+  # DEBUG BEGIN_STMT
+  # DEBUG inc => 1
+  # DEBUG BEGIN_STMT
+  # DEBUG D#21 => 128
+  # DEBUG D#22 => 1
+  # DEBUG INLINE_ENTRY s1232
+  # DEBUG ntimes => 1
+  # DEBUG LEN => 128
+  _9 = __builtin_stack_save ();
+  # DEBUG D#23 => 128
+  # DEBUG D#24 => &__func__
+  # DEBUG INLINE_ENTRY send_setup_info
+  # DEBUG test_name => &__func__
+  # DEBUG LEN => 128
+  PREV_ARR_END_ADDR = 2666397696;
+  # DEBUG addr => 2666266672B
+  _165 ={v} MEM[(volatile uint32_t *)2666266672B];
+  if (_165 != 3405691582)
+    goto <bb 19>; [89.00%]
+  else
+    goto <bb 25>; [11.00%]
+
+  <bb 25> [local count: 1169422]:
+
+  <bb 3> [local count: 10631108]:
+  MEM[(volatile uint32_t *)2666266672B] ={v} 0;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG addr => NULL
+  strcpy (2666266880B, &__func__);
+  strcpy (2666266896B, "float");
+  MEM[(volatile uint32_t *)2666266912B] ={v} 128;
+  MEM[(volatile uint32_t *)2666266688B] ={v} 3133061822;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG addr => 2666266704B
+  _164 ={v} MEM[(volatile uint32_t *)2666266704B];
+  if (_164 != 3405691582)
+    goto <bb 18>; [89.00%]
+  else
+    goto <bb 26>; [11.00%]
+
+  <bb 19> [local count: 9461686]:
+
+  <bb 4> [local count: 86015329]:
+  __asm__ __volatile__("fence" :  :  : "memory");
+  _88 ={v} MEM[(volatile uint32_t *)2666266672B];
+  if (_88 != 3405691582)
+    goto <bb 24>; [89.00%]
+  else
+    goto <bb 27>; [11.00%]
+
+  <bb 27> [local count: 9461686]:
+  goto <bb 3>; [100.00%]
+
+  <bb 24> [local count: 76553643]:
+  goto <bb 4>; [100.00%]
+
+  <bb 26> [local count: 1169422]:
+
+  <bb 5> [local count: 10631108]:
+  MEM[(volatile uint32_t *)2666266704B] ={v} 0;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG addr => NULL
+  # DEBUG LEN => NULL
+  # DEBUG test_name => NULL
+  # DEBUG D#1 => (long int) 128
+  # DEBUG D#2 => D#1 + -1
+  # DEBUG D.108669 => (sizetype) D#2
+  # DEBUG D#3 => (long int) 128
+  # DEBUG D#4 => D#3 + -1
+  # DEBUG D.108618 => (sizetype) D#4
+  _11 = PREV_ARR_END_ADDR;
+  _12 = (volatile uintptr_t *) _11;
+  ptr_13 ={v} *_12;
+  # DEBUG ptr => ptr_13
+  _14 = (volatile uintptr_t *) ptr_13;
+  addr_15 ={v} *_14;
+  # DEBUG addr => addr_15
+  _16 = checker;
+  if (_16 == 0)
+    goto <bb 7>; [50.00%]
+  else
+    goto <bb 28>; [50.00%]
+
+  <bb 28> [local count: 5315554]:
+  goto <bb 8>; [100.00%]
+
+  <bb 18> [local count: 9461686]:
+
+  <bb 6> [local count: 86015329]:
+  __asm__ __volatile__("fence" :  :  : "memory");
+  _89 ={v} MEM[(volatile uint32_t *)2666266704B];
+  if (_89 != 3405691582)
+    goto <bb 23>; [89.00%]
+  else
+    goto <bb 29>; [11.00%]
+
+  <bb 29> [local count: 9461686]:
+  goto <bb 5>; [100.00%]
+
+  <bb 23> [local count: 76553643]:
+  goto <bb 6>; [100.00%]
+
+  <bb 7> [local count: 5315551]:
+  MEM[(volatile uintptr_t *)2684289408B] ={v} ptr_13;
+  MEM[(volatile uintptr_t *)2684289024B] ={v} addr_15;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  _17 = checker;
+  _18 = _17 + 1;
+  checker = _18;
+
+  <bb 8> [local count: 10631108]:
+  # prephitmp_79 = PHI <_16(28), _18(7)>
+  _19 = PREV_ARR_END_ADDR;
+  _20 = _19 + 16;
+  PREV_ARR_END_ADDR = _20;
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG a => _14
+  # DEBUG D#5 => (long int) 128
+  # DEBUG D#6 => D#5 + -1
+  # DEBUG D.108673 => (sizetype) D#6
+  # DEBUG D#7 => (long int) 128
+  # DEBUG D#8 => D#7 + -1
+  # DEBUG D.108619 => (sizetype) D#8
+  _21 = (volatile uintptr_t *) _20;
+  ptr_22 ={v} *_21;
+  # DEBUG ptr => ptr_22
+  _23 = (volatile uintptr_t *) ptr_22;
+  addr_24 ={v} *_23;
+  # DEBUG addr => addr_24
+  if (prephitmp_79 == 0)
+    goto <bb 9>; [50.00%]
+  else
+    goto <bb 30>; [50.00%]
+
+  <bb 30> [local count: 5315554]:
+  goto <bb 10>; [100.00%]
+
+  <bb 9> [local count: 5315551]:
+  MEM[(volatile uintptr_t *)2684289408B] ={v} ptr_22;
+  MEM[(volatile uintptr_t *)2684289024B] ={v} addr_24;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  _26 = checker;
+  _27 = _26 + 1;
+  checker = _27;
+
+  <bb 10> [local count: 10631108]:
+  # prephitmp_61 = PHI <prephitmp_79(30), _27(9)>
+  _28 = PREV_ARR_END_ADDR;
+  _29 = _28 + 16;
+  PREV_ARR_END_ADDR = _29;
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG b => _23
+  # DEBUG D#9 => (long int) 128
+  # DEBUG D#10 => D#9 + -1
+  # DEBUG D.108677 => (sizetype) D#10
+  # DEBUG D#11 => (long int) 128
+  # DEBUG D#12 => D#11 + -1
+  # DEBUG D.108620 => (sizetype) D#12
+  _30 = (volatile uintptr_t *) _29;
+  ptr_31 ={v} *_30;
+  # DEBUG ptr => ptr_31
+  _32 = (volatile uintptr_t *) ptr_31;
+  addr_33 ={v} *_32;
+  # DEBUG addr => addr_33
+  if (prephitmp_61 == 0)
+    goto <bb 11>; [50.00%]
+  else
+    goto <bb 31>; [50.00%]
+
+  <bb 31> [local count: 5315554]:
+  goto <bb 12>; [100.00%]
+
+  <bb 11> [local count: 5315551]:
+  MEM[(volatile uintptr_t *)2684289408B] ={v} ptr_31;
+  MEM[(volatile uintptr_t *)2684289024B] ={v} addr_33;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  _35 = checker;
+  _36 = _35 + 1;
+  checker = _36;
+
+  <bb 12> [local count: 10631108]:
+  _37 = PREV_ARR_END_ADDR;
+  _38 = _37 + 16;
+  PREV_ARR_END_ADDR = _38;
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG c => _32
+  # DEBUG D#13 => (long int) 128
+  # DEBUG D#14 => D#13 + -1
+  # DEBUG D.108681 => (sizetype) D#14
+  # DEBUG D#15 => (long int) 128
+  # DEBUG D#16 => D#15 + -1
+  # DEBUG D.108621 => (sizetype) D#16
+  # DEBUG reg_ptr => _14
+  # DEBUG D#17 => (long int) 128
+  # DEBUG D#18 => D#17 + -1
+  # DEBUG D.108685 => (sizetype) D#18
+  # DEBUG D#19 => (long int) 128
+  # DEBUG D#20 => D#19 + -1
+  # DEBUG D.108688 => (sizetype) D#20
+  buffer.10_42 = __builtin_alloca_with_align (65536, 32);
+  # DEBUG buffer.10 => buffer.10_42
+  __asm__ __volatile__("fence; csrr %0, instret" : "instret_count" "=r" instret_count_43);
+  # DEBUG instret_count => NULL
+  __asm__ __volatile__("fence; csrr %0, cycle" : "cycle_count" "=r" cycle_count_45);
+  # DEBUG instret_count => NULL
+  # DEBUG cycle_count => NULL
+  # DEBUG nl => 0
+  __asm__ __volatile__("fence; csrr %0, cycle" : "cycle_count" "=r" cycle_count_68);
+  # DEBUG cycle_count => NULL
+  _107 = cycle_count_68 - cycle_count_45;
+  timer = _107;
+  # DEBUG cycle_count => NULL
+  __asm__ __volatile__("fence; csrr %0, instret" : "instret_count" "=r" instret_count_71);
+  # DEBUG instret_count => NULL
+  _173 = instret_count_71 - instret_count_43;
+  instret = _173;
+  # DEBUG cycle_count => NULL
+  # DEBUG instret_count => NULL
+  _75 = MEM <TYPE[0:D.108688][0:D.108685]> [(TYPE[0:D.108570][0:D.108573] *)buffer.10_42][0]{lb: 0 sz: 512}[0];
+  _76 = (unsigned int) _75;
+  MEM[(volatile uint32_t *)2684289072B] ={v} _76;
+  # DEBUG j => 0
+  goto <bb 15>; [100.00%]
+
+  <bb 22> [local count: 609926863]:
+
+  <bb 13> [local count: 695942190]:
+  # i_70 = PHI <i_84(22), j_73(15)>
+  # DEBUG i => i_70
+  _78 = (long unsigned int) i_70;
+  _80 = _78 * 512;
+  _81 = _14 + _80;
+  _83 = MEM <TYPE[0:D.108688][0:D.108685]> [(TYPE[0:D.108570][0:D.108573] *)buffer.10_42][i_70]{lb: 0 sz: 512}[j_73];
+  MEM <volatile TYPE[0:D.108681]> [(volatile TYPE[0:D.108580] *)_81][j_73] ={v} _83;
+  i_84 = i_70 + 1;
+  # DEBUG i => i_84
+  if (i_84 != 128)
+    goto <bb 22>; [87.64%]
+  else
+    goto <bb 14>; [12.36%]
+
+  <bb 14> [local count: 86015327]:
+  j_86 = j_73 + 1;
+  # DEBUG j => j_86
+  ivtmp_131 = ivtmp_133 - 1;
+  if (ivtmp_131 != 0)
+    goto <bb 21>; [87.64%]
+  else
+    goto <bb 16>; [12.36%]
+
+  <bb 21> [local count: 75384219]:
+
+  <bb 15> [local count: 86015327]:
+  # j_73 = PHI <j_86(21), 0(12)>
+  # ivtmp_133 = PHI <ivtmp_131(21), 128(12)>
+  # DEBUG j => j_73
+  # DEBUG i => j_73
+  goto <bb 13>; [100.00%]
+
+  <bb 16> [local count: 10631108]:
+  # DEBUG D#25 => &__func__
+  # DEBUG INLINE_ENTRY complete_results
+  # DEBUG test_name => &__func__
+  _91 = (long unsigned int) _107;
+  _93 = (long unsigned int) _173;
+  # DEBUG D#26 => &__func__
+  # DEBUG delta_minst => _93
+  # DEBUG delta_mcycle => _91
+  # DEBUG INLINE_ENTRY writeResults
+  # DEBUG name => &__func__
+  # DEBUG out => 2666332160B
+  # DEBUG D#27 => 2666332160B
+  # DEBUG D#28 => 0
+  # DEBUG D#29 => 24
+  # DEBUG INLINE_ENTRY memset
+  # DEBUG len => 24
+  # DEBUG value => 0
+  # DEBUG dest => 2666332160B
+  # DEBUG dest8 => 2666332160B
+  # DEBUG value8 => 0
+  # DEBUG left_ahead => 2666332160 & 3
+  # DEBUG right_ahead => 0
+  # DEBUG num_leading_bytes => 0
+  # DEBUG body_offset => 0
+  # DEBUG tail_offset => 24
+  # DEBUG value32 => 0
+  # DEBUG i => 0
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332160B
+  MEM <unsigned int> [(char * {ref-all})2666332160B] = 0;
+  # DEBUG i => 4
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332164B
+  MEM <unsigned int> [(char * {ref-all})2666332164B] = 0;
+  # DEBUG i => 8
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332168B
+  MEM <unsigned int> [(char * {ref-all})2666332168B] = 0;
+  # DEBUG i => 12
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332172B
+  MEM <unsigned int> [(char * {ref-all})2666332172B] = 0;
+  # DEBUG i => 16
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332176B
+  MEM <unsigned int> [(char * {ref-all})2666332176B] = 0;
+  # DEBUG i => 20
+  # DEBUG value => 0
+  # DEBUG ptr => 2666332180B
+  MEM <unsigned int> [(char * {ref-all})2666332180B] = 0;
+  # DEBUG value => NULL
+  # DEBUG body_offset => NULL
+  # DEBUG tail_offset => NULL
+  # DEBUG len => NULL
+  # DEBUG value => NULL
+  # DEBUG dest => NULL
+  # DEBUG ptr => NULL
+  # DEBUG i => NULL
+  # DEBUG value8 => NULL
+  strncpy (2666332160B, &__func__, 7);
+  _94 = (unsigned int) _173;
+  MEM[(volatile struct benchmark_result_t *)2666332160B].minst_lo ={v} _94;
+  _95 = _93 >> 32;
+  _96 = (unsigned int) _95;
+  MEM[(volatile struct benchmark_result_t *)2666332160B].minst_hi ={v} _96;
+  _97 = (unsigned int) _107;
+  MEM[(volatile struct benchmark_result_t *)2666332160B].mcycle_lo ={v} _97;
+  _98 = _91 >> 32;
+  _99 = (unsigned int) _98;
+  MEM[(volatile struct benchmark_result_t *)2666332160B].mcycle_hi ={v} _99;
+  # DEBUG delta_minst => NULL
+  # DEBUG delta_mcycle => NULL
+  # DEBUG name => NULL
+  __asm__ __volatile__("fence" :  :  : "memory");
+  MEM[(volatile uint32_t *)2666266656B] ={v} 4026907153;
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG test_name => NULL
+  __builtin_stack_restore (_9);
+  # DEBUG buffer.10 => NULL
+  # DEBUG nl => NULL
+  # DEBUG j => NULL
+  # DEBUG i => NULL
+  # DEBUG instret_count => NULL
+  # DEBUG cycle_count => NULL
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG addr => NULL
+  # DEBUG ptr => NULL
+  # DEBUG cycle_count => NULL
+  # DEBUG instret_count => NULL
+  # DEBUG LEN => NULL
+  # DEBUG ntimes => NULL
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY finalTestComplete
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+  # DEBUG BEGIN_STMT
+  MEM[(volatile uint32_t *)2666266656B] ={v} 3737844653;
+  # DEBUG BEGIN_STMT
+  # DEBUG INLINE_ENTRY fence
+  # DEBUG BEGIN_STMT
+  __asm__ __volatile__("fence" :  :  : "memory");
+
+  <bb 17> [local count: 1073741824]:
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+
+  <bb 20> [local count: 1073741824]:
+  goto <bb 17>; [100.00%]
+
+}
+
+

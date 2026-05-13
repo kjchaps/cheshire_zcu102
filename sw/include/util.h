@@ -56,6 +56,14 @@ static inline uint64_t get_mcycle() {
     return mcycle;
 }
 
+// Get instruction count since reset
+static inline uint64_t get_minstret(void) {
+    uint64_t x;
+    asm volatile("csrr %0, minstret" : "=r"(x) :: "memory");
+    return x;
+}
+
+
 // This may also be used to invoke code that does not return.
 static inline uint64_t invoke(void *code) {
     uint64_t (*code_fun_ptr)(void) = code;

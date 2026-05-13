@@ -23,12 +23,15 @@ CHS_SW_DTB_TGUID := BA442F61-2AEF-42DE-9233-E4D75D3ACB9D
 CHS_SW_FW_TGUID  := 99EC86DA-3F5B-4B0D-8F4B-C4BACFA5F859
 CHS_SW_DISK_SIZE ?= 16M
 
-CHS_SW_FLAGS   ?= -DOT_PLATFORM_RV32 -march=rv64gc_zifencei -mabi=lp64d -mstrict-align -O2 -Wall -Wextra -static -ffunction-sections -fdata-sections -frandom-seed=cheshire -fuse-linker-plugin -flto -Wl,-flto
+CHS_SW_FLAGS   ?= -DOT_PLATFORM_RV32 -march=rv64gc_zifencei -mabi=lp64d -mstrict-align -O3 -Wall -Wextra -static -ftree-vectorize -fdump-tree-vect -ffunction-sections -fdata-sections -frandom-seed=cheshire -fuse-linker-plugin -flto  -Wl,-flto 
 CHS_SW_CCFLAGS ?= $(CHS_SW_FLAGS) -ggdb -mcmodel=medany -mexplicit-relocs -fno-builtin -fverbose-asm -pipe
 CHS_SW_LDFLAGS ?= $(CHS_SW_FLAGS) -nostartfiles -Wl,--gc-sections -Wl,-L$(CHS_SW_LD_DIR)
 CHS_SW_ARFLAGS ?= --plugin=$(CHS_SW_LTOPLUG)
 
+# -ftree-vectorize -fdump-tree-vect
+
 CHS_SW_ALL += $(CHS_SW_LIBS) $(CHS_SW_GEN_HDRS) $(CHS_SW_TESTS) $(CHS_SW_TOOLS)
+
 
 .PRECIOUS: %.elf %.dtb
 
@@ -51,10 +54,11 @@ CHS_SW_DEPS_SRCS += $(wildcard $(OTPROOT)/sw/device/lib/dif/autogen/*.c)
 #############
 # Libraries #
 #############
+CHS_SW_BENCHMARK_SRCS = $(wildcard $(CHS_SW_DIR)/benchmarks/*/*.c)
 
-CHS_SW_INCLUDES   ?= -I$(CHS_SW_DIR)/include $(CHS_SW_DEPS_INCS)
+CHS_SW_INCLUDES   ?= -I$(CHS_SW_DIR)/include $(CHS_SW_DEPS_INCS) 
 CHS_SW_LIB_SRCS_S  = $(wildcard $(CHS_SW_DIR)/lib/*.S $(CHS_SW_DIR)/lib/**/*.S)
-CHS_SW_LIB_SRCS_C  = $(wildcard $(CHS_SW_DIR)/lib/*.c $(CHS_SW_DIR)/lib/**/*.c)
+CHS_SW_LIB_SRCS_C  = $(wildcard $(CHS_SW_DIR)/lib/*.c $(CHS_SW_DIR)/lib/**/*.c) $(CHS_SW_BENCHMARK_SRCS)
 CHS_SW_LIB_SRCS_O  = $(CHS_SW_DEPS_SRCS:.c=.o) $(CHS_SW_LIB_SRCS_S:.S=.o) $(CHS_SW_LIB_SRCS_C:.c=.o)
 
 CHS_SW_LIBS = $(CHS_SW_DIR)/lib/libcheshire.a
@@ -87,6 +91,9 @@ $(eval $(call chs_sw_gen_hdr_rule,axi_rt,$(AXIRTROOT)/src/regs/axi_rt.hjson $(AX
 # Generate headers for OT peripherals in the bendered repo itself
 CHS_SW_GEN_HDRS += $(OTPROOT)/.generated
 
+CHS_SW_BENCHMARK_SRCS := $(wildcard $(CHS_SW_DIR)/benchmarks/*/*.c)
+CHS_SW_CPPFLAGS += -I$(CHS_SW_DIR)/benchmarks
+
 ###############
 # Compilation #
 ###############
@@ -112,7 +119,8 @@ define chs_sw_ld_elf_rule
 	$$(CHS_SW_CC) $$(CHS_SW_INCLUDES) -T$$< $$(CHS_SW_LDFLAGS) -o $$@ $$*.$(1).o $$(CHS_SW_LIBS)
 endef
 
-CHS_SW_LINK_MODES ?= $(patsubst $(CHS_SW_LD_DIR)/%.ld,%,$(wildcard $(CHS_SW_LD_DIR)/*.ld))
+#CHS_SW_LINK_MODES ?= $(patsubst $(CHS_SW_LD_DIR)/%.ld,%,$(wildcard $(CHS_SW_LD_DIR)/*.ld))
+CHS_SW_LINK_MODES ?= dram
 
 $(foreach link,$(CHS_SW_LINK_MODES),$(eval $(call chs_sw_ld_elf_rule,$(link))))
 
@@ -174,16 +182,24 @@ CHS_SW_TOOLS += sw/boot/flash.spm.elf
 #########
 
 # Accumulate single-link-mode sources and corresponding .dump targets
+#define chs_sw_tests_add_rule
+#BLA += $(wildcard $(2)/*.$(1).c $(2)/*/*.$(1).c)
+#CHS_SW_TEST_LONE += $(wildcard $(2)/*.$(1).c $(2)/*/*.$(1).c $(2)/*.$(1).S $(2)/*/*.$(1).S)
+#CHS_SW_TEST_DUMP += $(patsubst %.c,%.dump,$(wildcard $(2)/*.$(1).c $(2)/*/*.$(1).c)) $(patsubst %.S,%.dump,$(wildcard $(2)/*.$(1).S $(2)/*/*.$(1).S))
+#endef
 define chs_sw_tests_add_rule
 BLA += $(wildcard $(2)/*.$(1).c)
 CHS_SW_TEST_LONE += $(wildcard $(2)/*.$(1).c) $(wildcard $(2)/*.$(1).S)
 CHS_SW_TEST_DUMP += $(patsubst %.c,%.dump,$(wildcard $(2)/*.$(1).c)) $(patsubst %.S,%.dump,$(wildcard $(2)/*.$(1).S))
 endef
 
+
 # Accumulate tests for all link modes
 $(foreach link,$(CHS_SW_LINK_MODES),$(eval $(call chs_sw_tests_add_rule,$(link),$(CHS_SW_DIR)/tests)))
 
 # Collect mode-agnostic tests, which should be build for all modes, and their .dump targets
+#CHS_SW_TEST_C_LALL = $(filter-out $(CHS_SW_TEST_LONE), $(wildcard $(CHS_SW_DIR)/tests/*.c $(CHS_SW_DIR)/tests/*/*.c))
+#CHS_SW_TEST_S_LALL = $(filter-out $(CHS_SW_TEST_LONE), $(wildcard $(CHS_SW_DIR)/tests/*.S $(CHS_SW_DIR)/tests/*/*.S))
 CHS_SW_TEST_C_LALL = $(filter-out $(CHS_SW_TEST_LONE), $(wildcard $(CHS_SW_DIR)/tests/*.c))
 CHS_SW_TEST_S_LALL = $(filter-out $(CHS_SW_TEST_LONE), $(wildcard $(CHS_SW_DIR)/tests/*.S))
 $(foreach link,$(CHS_SW_LINK_MODES),$(eval CHS_SW_TEST_DUMP += $(CHS_SW_TEST_C_LALL:.c=.$(link).dump) $(CHS_SW_TEST_S_LALL:.S=.$(link).dump)))
@@ -194,3 +210,10 @@ CHS_SW_TESTS += $(CHS_SW_TEST_ROM_DUMP:.rom.dump=.rom.memh) $(CHS_SW_TEST_ROM_DU
 
 # Add all dumps to test build
 CHS_SW_TESTS += $(CHS_SW_TEST_DUMP)
+
+# Generate .bin targets for DRAM-linked tests
+CHS_SW_TEST_DRAM_DUMP = $(filter %.dram.dump,$(CHS_SW_TEST_DUMP))
+CHS_SW_TESTS += $(CHS_SW_TEST_DRAM_DUMP:.dram.dump=.bin)
+
+%.bin: %.dram.elf
+	$(CHS_SW_OBJCOPY) -O binary $< $@
